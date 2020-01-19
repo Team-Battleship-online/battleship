@@ -6,16 +6,65 @@ export default class Main extends Component {
     super(props);
 
     this.state = {
-      users: ["Steven", "Brian", "Jack", "Kat"]
+      users: ["Steven", "Brian", "Jack", "Kat"],
+      userName: "",
+      submitted: false
     };
+
+    this.submitUsername = this.submitUsername.bind(this);
+    this.onChange = this.onChange.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      userName: window.localStorage.getItem("username")
+    });
+  }
+
+  submitUsername(event) {
+    console.log(this.state.userName);
+    event.preventDefault();
+
+    this.setState(
+      {
+        submitted: !this.state.submitted
+      },
+      () => {
+        window.localStorage.setItem("username", this.state.userName);
+      }
+    );
+  }
+
+  onChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
   }
 
   render() {
     return (
       <div className="app">
-        <form id="main">
-          <input type="text" id="username-input" placeholder="Enter Username" />
-        </form>
+        {!this.state.userName ? (
+          <form id="main" onSubmit={this.submitUsername}>
+            <input
+              onChange={this.onChange}
+              name="userName"
+              type="text"
+              id="username-input"
+              placeholder="Enter Username"
+            />
+          </form>
+        ) : (
+          <div className="welcome">
+            <p>
+              Welcome, {this.state.userName}, to Online Multiplayer Battlefield!
+            </p>
+          </div>
+        )}
 
         <div className="player-selection">
           <div className="player-selection-top">

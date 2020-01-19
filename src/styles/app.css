@@ -129,3 +129,18 @@ input:focus::placeholder {
 .clickable {
   cursor: pointer;
 }
+
+.welcome {
+  position: absolute;
+  left: 6.49%;
+  right: 34.6%;
+  top: 18.7%;
+  bottom: 35.04%;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 121px;
+  letter-spacing: 0.16em;
+}
