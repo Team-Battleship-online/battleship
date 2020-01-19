@@ -5,7 +5,7 @@ export default function List({ users }) {
   return (
     <div className="players">
       {users.map(user => (
-        <p>{user}</p>
+        <p className="clickable">{user}</p>
       ))}
     </div>
   );

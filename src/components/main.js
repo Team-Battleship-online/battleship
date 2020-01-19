@@ -4,6 +4,10 @@ import "../styles/app.css";
 export default class Main extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      users: ["Steven", "Brian", "Jack", "Kat"]
+    };
   }
 
   render() {
@@ -17,7 +21,7 @@ export default class Main extends Component {
           <div className="player-selection-top">
             <p className="player-selection-top-text">Player Selection</p>
           </div>
-          <List users={["Steven", "Brian", "Jack", "Kat"]} />
+          <List users={this.state.users} />
         </div>
       </div>
     );

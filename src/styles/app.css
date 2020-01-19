@@ -125,3 +125,7 @@ input:focus::placeholder {
 
   color: #1fb2c6;
 }
+
+.clickable {
+  cursor: pointer;
+}
