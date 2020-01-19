@@ -16,9 +16,16 @@ export default class Main extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      userName: window.localStorage.getItem("username")
-    });
+    this.setState(
+      {
+        userName: window.localStorage.getItem("username")
+      },
+      () => {
+        this.setState({
+          submitted: this.state.userName ? true : false
+        });
+      }
+    );
   }
 
   submitUsername(event) {
@@ -48,7 +55,7 @@ export default class Main extends Component {
   render() {
     return (
       <div className="app">
-        {!this.state.userName ? (
+        {!this.state.submitted ? (
           <form id="main" onSubmit={this.submitUsername}>
             <input
               onChange={this.onChange}
