@@ -68,7 +68,7 @@ export default class Main extends Component {
         ) : (
           <div className="welcome">
             <p>
-              Welcome, {this.state.userName}, to Online Multiplayer Battlefield!
+              Welcome, {this.state.userName}, to Online Multiplayer Battleship!
             </p>
           </div>
         )}

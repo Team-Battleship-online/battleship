@@ -7,8 +7,6 @@ import {
   Switch
 } from "react-router-dom";
 import Main from "./components/main.js";
-import List from "./components/list.js";
-import io from "socket.io-client";
 
 export default class App extends Component {
   constructor(props) {
