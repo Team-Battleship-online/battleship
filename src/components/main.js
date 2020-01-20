@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import List from "./list.js";
+import io from "socket.io-client";
 import "../styles/app.css";
+const socket = io("http://localhost:3005");
 export default class Main extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      users: ["Steven", "Brian", "Jack", "Kat"],
+      users: [],
       userName: "",
       submitted: false
     };
@@ -26,20 +28,41 @@ export default class Main extends Component {
         });
       }
     );
+
+    socket.on("connect", () => {
+      if (window.localStorage.getItem("username")) {
+        socket.emit("user-connect", {
+          username: window.localStorage.getItem("username"),
+          socketId: socket.id
+        });
+      }
+      socket.on("users", data => {
+        this.setState({
+          users: Object.keys(data).filter(
+            user => user !== window.localStorage.getItem("username")
+          )
+        });
+      });
+    });
   }
 
   submitUsername(event) {
+    let setUsername = true;
     console.log(this.state.userName);
     event.preventDefault();
 
-    this.setState(
-      {
-        submitted: !this.state.submitted
-      },
-      () => {
-        window.localStorage.setItem("username", this.state.userName);
-      }
-    );
+    if (setUsername) {
+      this.setState(
+        {
+          submitted: !this.state.submitted
+        },
+        () => {
+          window.localStorage.setItem("username", this.state.userName);
+        }
+      );
+    } else {
+      window.localStorage.clear();
+    }
   }
 
   onChange(event) {
