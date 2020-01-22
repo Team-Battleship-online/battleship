@@ -17,7 +17,7 @@ export default class App extends Component {
     return (
       <Router>
         <Switch>
-          <Route path="/game">//render game component</Route>
+          <Route path="/game"></Route>
           <Route path="/">
             <Main />
           </Route>

@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import List from "./list.js";
+import UsernameInput from "./username-input.js";
+import Welcome from "./welcome.js";
+import PlayerSelection from "./player-selection.js";
 import io from "socket.io-client";
 import "../styles/app.css";
 const socket = io("http://localhost:3005");
@@ -82,29 +85,15 @@ export default class Main extends Component {
     return (
       <div className="app">
         {!this.state.submitted ? (
-          <form id="main" onSubmit={this.submitUsername}>
-            <input
-              onChange={this.onChange}
-              name="userName"
-              type="text"
-              id="username-input"
-              placeholder="Enter Username"
-            />
-          </form>
+          <UsernameInput
+            submitUsername={this.submitUsername}
+            onChange={this.onChange}
+          />
         ) : (
-          <div className="welcome">
-            <p>
-              Welcome, {this.state.userName}, to Online Multiplayer Battleship!
-            </p>
-          </div>
+          <Welcome userName={this.state.userName} />
         )}
 
-        <div className="player-selection">
-          <div className="player-selection-top">
-            <p className="player-selection-top-text">Player Selection</p>
-          </div>
-          <List users={this.state.users} />
-        </div>
+        <PlayerSelection users={this.state.users} />
       </div>
     );
   }
