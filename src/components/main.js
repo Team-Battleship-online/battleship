@@ -32,16 +32,15 @@ export default class Main extends Component {
     socket.on("connect", () => {
       if (window.localStorage.getItem("username")) {
         socket.emit("user-connect", {
-          username: window.localStorage.getItem("username"),
-          socketId: socket.id
+          username: window.localStorage.getItem("username")
         });
       }
-      socket.on("users", data => {
-        this.setState({
-          users: Object.keys(data).filter(
-            user => user !== window.localStorage.getItem("username")
-          )
-        });
+    });
+    socket.on("users", data => {
+      this.setState({
+        users: Object.keys(data).filter(
+          user => user !== window.localStorage.getItem("username")
+        )
       });
     });
   }
@@ -58,6 +57,10 @@ export default class Main extends Component {
         },
         () => {
           window.localStorage.setItem("username", this.state.userName);
+
+          socket.emit("user-connect", {
+            username: this.state.userName
+          });
         }
       );
     } else {
