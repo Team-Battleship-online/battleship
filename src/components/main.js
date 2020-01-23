@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import List from "./list.js";
 import UsernameInput from "./username-input.js";
 import Welcome from "./welcome.js";
 import PlayerSelection from "./player-selection.js";
+import InviteModal from "./invite-modal.js";
 import io from "socket.io-client";
 import "../styles/app.css";
 const socket = io("http://localhost:3005");
@@ -13,11 +13,13 @@ export default class Main extends Component {
     this.state = {
       users: [],
       userName: "",
+      selectedUser: "",
       submitted: false
     };
 
-    this.submitUsername = this.submitUsername.bind(this);
-    this.onChange = this.onChange.bind(this);
+    // this.submitUsername = this.submitUsername.bind(this);
+    // // this.getUser = this.getUser.bind(this);
+    // this.onChange = this.onChange.bind(this);
   }
 
   componentDidMount() {
@@ -48,7 +50,7 @@ export default class Main extends Component {
     });
   }
 
-  submitUsername(event) {
+  submitUsername = event => {
     let setUsername = true;
     console.log(this.state.userName);
     event.preventDefault();
@@ -69,9 +71,26 @@ export default class Main extends Component {
     } else {
       window.localStorage.clear();
     }
-  }
+  };
 
-  onChange(event) {
+  getUser = selectedUser => {
+    this.setState(
+      {
+        selectedUser
+      },
+      () => {
+        console.log(this.state.selectedUser);
+      }
+    );
+  };
+
+  clearSelectedUser = () => {
+    this.setState({
+      selectedUser: ""
+    });
+  };
+
+  onChange = event => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -79,7 +98,7 @@ export default class Main extends Component {
     this.setState({
       [name]: value
     });
-  }
+  };
 
   render() {
     return (
@@ -92,8 +111,15 @@ export default class Main extends Component {
         ) : (
           <Welcome userName={this.state.userName} />
         )}
-
-        <PlayerSelection users={this.state.users} />
+        {this.state.selectedUser ? (
+          <InviteModal
+            selectedUser={this.state.selectedUser}
+            clearSelectedUser={this.clearSelectedUser}
+          />
+        ) : (
+          ""
+        )}
+        <PlayerSelection getUser={this.getUser} users={this.state.users} />
       </div>
     );
   }
