@@ -14,7 +14,8 @@ export default class Main extends Component {
       users: [],
       userName: "",
       selectedUser: "",
-      submitted: false
+      submitted: false,
+      receivedGameInvite: false
     };
 
     // this.submitUsername = this.submitUsername.bind(this);
@@ -46,6 +47,14 @@ export default class Main extends Component {
         users: Object.keys(data).filter(
           user => user !== window.localStorage.getItem("username")
         )
+      });
+    });
+
+    socket.on("received-game-invite", username => {
+      console.log("recieved game invite");
+      this.setState({
+        receivedGameInvite: true,
+        selectedUser: username
       });
     });
   }
@@ -84,10 +93,16 @@ export default class Main extends Component {
     );
   };
 
-  clearSelectedUser = () => {
+  clearModal = () => {
     this.setState({
-      selectedUser: ""
+      selectedUser: "",
+      receivedGameInvite: false
     });
+  };
+
+  sendGameInvite = () => {
+    console.log("sending???");
+    socket.emit("send-game-invite", this.state.selectedUser);
   };
 
   onChange = event => {
@@ -113,8 +128,10 @@ export default class Main extends Component {
         )}
         {this.state.selectedUser ? (
           <InviteModal
+            sendGameInvite={this.sendGameInvite}
+            receivedGameInvite={this.state.receivedGameInvite}
             selectedUser={this.state.selectedUser}
-            clearSelectedUser={this.clearSelectedUser}
+            clearModal={this.clearModal}
           />
         ) : (
           ""
