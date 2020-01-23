@@ -15,7 +15,8 @@ export default class Main extends Component {
       userName: "",
       selectedUser: "",
       submitted: false,
-      receivedGameInvite: false
+      receivedGameInvite: false,
+      userDeclined: false
     };
 
     // this.submitUsername = this.submitUsername.bind(this);
@@ -55,6 +56,14 @@ export default class Main extends Component {
       this.setState({
         receivedGameInvite: true,
         selectedUser: username
+      });
+    });
+
+    socket.on("declined-game-invite", username => {
+      console.log("Did the decline game invite work?");
+      this.setState({
+        selectedUser: username,
+        userDeclined: true
       });
     });
   }
@@ -105,6 +114,17 @@ export default class Main extends Component {
     socket.emit("send-game-invite", this.state.selectedUser);
   };
 
+  declineGameInvite = () => {
+    console.log("Declined game invite?");
+    socket.emit("decline-game-invite", this.state.selectedUser);
+  };
+
+  toggleUserDeclined = () => {
+    this.setState({
+      userDeclined: !this.state.userDeclined
+    });
+  };
+
   onChange = event => {
     const target = event.target;
     const value = target.value;
@@ -132,6 +152,9 @@ export default class Main extends Component {
             receivedGameInvite={this.state.receivedGameInvite}
             selectedUser={this.state.selectedUser}
             clearModal={this.clearModal}
+            declineGameInvite={this.declineGameInvite}
+            userDeclined={this.state.userDeclined}
+            toggleUserDeclined={this.toggleUserDeclined}
           />
         ) : (
           ""
