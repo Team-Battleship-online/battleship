@@ -1,12 +1,28 @@
-import React, {Component} from 'react';
-import io from 'socket.io-client';
+import React, { Component } from "react";
+import "./styles/app.css";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch
+} from "react-router-dom";
+import Main from "./components/main.js";
 
 export default class App extends Component {
-    constructor(props){
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    render() {
-        return <p>Hello world</p>;
-    }
+  render() {
+    return (
+      <Router>
+        <Switch>
+          <Route path="/game"></Route>
+          <Route path="/">
+            <Main />
+          </Route>
+        </Switch>
+      </Router>
+    );
+  }
 }

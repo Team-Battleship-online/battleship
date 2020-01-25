@@ -1,0 +1,51 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+
+.modal-container {
+  width: 100%;
+  left: -15.16%;
+  height: 100%;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background-color: white;
+  width: 20%;
+  height: 30%;
+  background: #3ba5c7;
+  text-align: left;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.modal p {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 212.7%;
+  /* or 38px */
+  padding-left: 30px;
+  letter-spacing: 0.16em;
+}
+
+.modal div {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+#yes {
+  color: #22ea72;
+  cursor: pointer;
+}
+
+#no {
+  color: #c4311d;
+  cursor: pointer;
+}
